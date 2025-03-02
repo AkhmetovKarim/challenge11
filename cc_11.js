@@ -72,6 +72,27 @@ class LibraryWithLending extends Library {
     }
 }
 
+
+//Task 5 - Implementing Book Returns
+class LibraryWithReturns extends LibraryWithLending {
+    constructor() {
+        super();
+    }
+    returnBook(borrowerId, isbn) {
+        const book = this.books.find(b => b.isbn === isbn);
+        const borrower = this.borrowers.find(b => b.borrowerId === borrowerId);
+        if (book && borrower) {
+            book.updateCopies(1);
+            borrower.returnBook(book.title);
+            console.log(`${borrower.name} return "${book.title}"`);
+        } else if (!book) {
+            console.log("N/A");
+        } else if (!borrower) {
+            console.log("N/a");
+        }
+    }
+}
+
 const book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 123456, 5); //tast 1 cases
 console.log(book1.getDetails());
 book1.updateCopies(-1);
@@ -87,9 +108,16 @@ const library = new Library(); //task 3 cases
 library.addBook(book1);
 library.listBooks();
 
-const libraryWithLending = new LibraryWithLending();
+const libraryWithLending = new LibraryWithLending(); //task 4 cases
 libraryWithLending.addBook(book1);
 libraryWithLending.borrowers.push(borrower1);
 libraryWithLending.lendBook(201, 123456);
+console.log(book1.getDetails());
+console.log(borrower1.borrowedBooks);
+
+const libraryWithReturns = new LibraryWithReturns();
+libraryWithReturns.addBook(book1);
+libraryWithReturns.borrowers.push(borrower1);
+libraryWithReturns.returnBook(201, 123456);
 console.log(book1.getDetails());
 console.log(borrower1.borrowedBooks);
