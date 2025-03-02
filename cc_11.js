@@ -52,18 +52,44 @@ class Library {
     }
 }
 
-const book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 123456, 5);
+//Task 4 - Implementing Book Borrowing
+class LibraryWithLending extends Library {
+    constructor() {
+        super ();
+    }
+    lendBook(borrowerId, isbn) { //add a method
+        const book = this.books.find(b => b.isbn === isbn);
+        const borrower = this.borrowers.find(b => b.borrowerId === borrowerId);
+        if (book && book.copies >0) {
+            book.updateCopies(-1);
+            borrower.borrowBook(book.title);
+            console.log(`${borrower.name} borrow "${book.title}"`);
+        } else if (!book) {
+            console.log("Not found");
+        } else {
+            console.log("Unavailable");
+        }
+    }
+}
+
+const book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 123456, 5); //tast 1 cases
 console.log(book1.getDetails());
 book1.updateCopies(-1);
 console.log(book1.getDetails());
 
-const borrower1 = new Borrower("Alice Johnson", 201);
+const borrower1 = new Borrower("Alice Johnson", 201);//task 2 cases
 borrower1.borrowBook(book1)
 console.log(borrower1.borrowedBooks);
 borrower1.returnBook(book1);
 console.log(borrower1.borrowedBooks);
 
-
-const library = new Library();
+const library = new Library(); //task 3 cases
 library.addBook(book1);
 library.listBooks();
+
+const libraryWithLending = new LibraryWithLending();
+libraryWithLending.addBook(book1);
+libraryWithLending.borrowers.push(borrower1);
+libraryWithLending.lendBook(201, 123456);
+console.log(book1.getDetails());
+console.log(borrower1.borrowedBooks);
