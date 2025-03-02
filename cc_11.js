@@ -13,10 +13,7 @@ class Book { //create a class book with properties
         this.copies += quantity;
     }
 }
-const book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 123456, 5); //Test cases
-console.log(book1.getDetails());
-book1.updateCopies(-1);
-console.log(book1.getDetails());
+
 
 //Task 2 - Created Borrower Class
 class Borrower { //create a class with properties
@@ -33,12 +30,40 @@ class Borrower { //create a class with properties
         if (index !== -1) {
             this.borrowedBooks.splice(index, 1);
         } else {
-            console.log(`${book} not in list`);
+            console.log(`${book.title} not in list`);
         }
     }
 }
-const borrower1 = new Borrower("Alice Johnson", 201); //test cases
-borrower1.borrowBook("The Great Gatsby");
+
+
+//Task 3 - Library Class
+class Library {
+    constructor() {
+        this.books = [];
+        this.borrowers = [];
+    }
+    addBook(book) {
+        this.books.push(book);
+    }
+    listBooks() {
+        this.books.forEach(book => {
+            console.log(book.getDetails());
+        });
+    }
+}
+
+const book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 123456, 5);
+console.log(book1.getDetails());
+book1.updateCopies(-1);
+console.log(book1.getDetails());
+
+const borrower1 = new Borrower("Alice Johnson", 201);
+borrower1.borrowBook(book1)
 console.log(borrower1.borrowedBooks);
-borrower1.returnBook("The Great Gatsby");
+borrower1.returnBook(book1);
 console.log(borrower1.borrowedBooks);
+
+
+const library = new Library();
+library.addBook(book1);
+library.listBooks();
